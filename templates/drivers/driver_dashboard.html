@@ -1,0 +1,158 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>BYAHE - Driver Dashboard</title>
+
+        <link rel="icon" href="{% static 'assets\img\byahe-logo.png' %}" type="image/png">
+
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{% static 'admin/css/styles.css' %}" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="{% url 'driver_dashboard' %}">BYAHE Dashboard</a>
+            <!-- Navbar User Icon-->
+            <ul class="navbar-nav" style="margin-left: auto;">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user fa-fw"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'logout'%}">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+            
+        </nav>
+            
+                
+            <main>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Registered Byahe Users
+                    </div>
+                    
+                    <div class="card-body">
+                        <h3 class="mb-4">Welcome, {{ request.user.first_name }}!</h3>
+                        <h4 class="mb-4">View your bookings.</h4>
+                        <table id="datatablesSimple">
+                            <thead>
+                                <tr>
+                                    <th>Vehicle</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Pickup Location</th>
+                                    <th>Drop Off Location</th>
+                                    <th>Renter's Name</th>
+                                    <th>Phone Number</th>
+                                    <th>Reservation ID</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for trip in trips %}
+                                <tr>
+                                    <td>{{ trip.vehicle }}</td>
+                                    <td>{{ trip.date }}</td>
+                                    <td>{{ trip.time }}</td>
+                                    <td>{{ trip.pickup_location }}</td>
+                                    <td>{{ trip.drop_off_location }}</td>
+                                    <td>{{ trip.renter_name }}</td>
+                                    <td>{{ trip.phone_number }}</td>
+                                    <td>{{ trip.reservation_id }}</td>
+                                    <td>
+                                        <button 
+                                            class="btn btn-sm status-button"
+                                            data-trip-id="{{ trip.id }}"
+                                            data-current-status="{{ trip.status }}">
+                                            {{ trip.status_display }}
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const statusButtons = document.querySelectorAll('.status-button');
+        
+                statusButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const currentStatus = this.getAttribute('data-current-status');
+                        const tripId = this.getAttribute('data-trip-id');
+        
+                        let newStatus;
+                        switch (currentStatus) {
+                            case 'Picking Up':
+                                newStatus = 'Picked Up';
+                                break;
+                            case 'Picked Up':
+                                newStatus = 'Dropped Off';
+                                break;
+                            case 'Dropped Off':
+                                newStatus = 'Reservation Complete';
+                                this.disabled = true; // Disable the button
+                                break;
+                            default:
+                                newStatus = currentStatus;
+                        }
+        
+                        // Update the button text and status attribute
+                        this.textContent = newStatus;
+                        this.setAttribute('data-current-status', newStatus);
+        
+                        // Optionally, send the updated status to the backend
+                        fetch(`/update-trip-status/${tripId}/`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}' // CSRF token for Django
+                            },
+                            body: JSON.stringify({ status: newStatus })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                alert('Failed to update status.');
+                                throw new Error('Network response was not ok.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error updating status:', error);
+                        });
+                    });
+                });
+            });
+        </script>
+        
+                    
+                        
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'admin/js/scripts.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'admin/assets/demo/chart' %}-area-demo.js"></script>
+        <script src="{% static 'admin/assets/demo/chart' %}-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'admin/js/datatables-simple' %}-demo.js"></script>
+        
+        
+        <script src="{% static 'admin/js/delete_modal.js' %}"></script>
+
+    </body>
+</html>
