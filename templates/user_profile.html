@@ -1,0 +1,179 @@
+{% extends "profile_layout.html" %}
+{% load static %}
+
+{% block title %}
+    Welcome User! | Byahe Travel
+{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static '/styles/styles-logged.css' %}">
+
+{% include "loader.html" %}
+{% endblock style%}
+
+<body>
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Notification</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand logo" href="#">
+            <img src="{% static '/images/backgrounds/byahe-logo.png' %}" alt="Logo" class="navbar-logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto d-flex align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="#about-us">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#book-your-ride">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#vehicles-section">Vehicles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#announcement-section">Announcements</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contacts">Contact</a>
+                </li>
+            
+                <li class="nav-item">
+                    <!-- Existing Get Started Button -->
+                    <a href="{% url 'reservation_form_view' %}" class="btn get-started-btn ms-3 book-now-btn">Book Now</a>
+                </li>
+            </ul>
+            <!-- User Icon with Dropdown -->
+            <ul class="navbar-nav ms-1 d-flex align-items-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link d-flex align-items-center dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle" style="font-size: 2.3rem; margin-right: 0.5rem;"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn animate__faster" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'user_profile' %}">
+                                <i class="fas fa-user" style="margin-right: 0.5rem;"></i>User Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt" style="margin-right: 0.5rem; color: red;"></i>Log Out
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock navbar %}
+
+{% block vehicles %}
+<section id="vehicles-section">
+    <div class="vehicles-hero" style="height: 250px; position: relative; padding: 40px 20px; padding-top: 20px; padding-bottom: 20px; background-image: url('{% static 'images/backgrounds/vehicle-bg.jpg' %}'); background-size: 100% auto; background-position: center; background-repeat: no-repeat; width: 100%; color: #ffffff; overflow: hidden;">
+        <div style="content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(4, 51, 114, 0.55); z-index: 1;"></div>
+        <h1 style="position: relative; z-index: 2;">User Profile</h1>
+        <p style="text-align: center; position: relative; z-index: 2;">View and manage your reservations.</p>
+    </div>
+</section>
+{% endblock vehicles %}
+
+{% block table %}
+<main>
+    <div class="container my-5">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-light text-dark fw-bold">
+                <i class="fas fa-table me-1"></i>
+                Current Bookings
+            </div>
+            
+            <div class="card-body">
+                <h3 class="mb-4">Welcome, {{ request.user.first_name }}!</h3>
+                <h4 class="mb-4">View your bookings below:</h4>
+                <div class="table-responsive">
+                    <table id="datatablesSimple" class="table table-bordered text-center align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Vehicle</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Pickup Location</th>
+                                <th>Drop Off Location</th>
+                                <th>Renter's Name</th>
+                                <th>Phone Number</th>
+                                <th>Reservation ID</th>
+                                <th>Status</th>
+                                <th>Reschedule</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for trip in trips %}
+                            <tr>
+                                <td>{{ trip.vehicle }}</td>
+                                <td>{{ trip.date }}</td>
+                                <td>{{ trip.time }}</td>
+                                <td>{{ trip.pickup_location }}</td>
+                                <td>{{ trip.drop_off_location }}</td>
+                                <td>{{ trip.renter_name }}</td>
+                                <td>{{ trip.phone_number }}</td>
+                                <td class="fw-bold">{{ trip.reservation_id }}</td>
+                                <td>
+                                    <button 
+                                        class="btn btn-sm btn-outline-success status-button"
+                                        data-trip-id="{{ trip.id }}"
+                                        data-current-status="{{ trip.status }}">
+                                        {{ trip.status_display }}
+                                    </button>
+                                </td>
+                                <td>
+                                    <span 
+                                        class="text-primary reschedule-hover" 
+                                        data-bs-toggle="tooltip" 
+                                        title="Set date and time">
+                                        Reschedule
+                                    </span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="10" class="text-muted text-center">No bookings found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Enable Bootstrap tooltips for hoverable text
+    document.addEventListener('DOMContentLoaded', function () {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+
+{% endblock table %}

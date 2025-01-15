@@ -17,7 +17,7 @@ from django.http import HttpResponse
 from .forms import ReservationForm
 from django.http import JsonResponse
 from .decorators import admin_only
-
+from django.core.files.storage import FileSystemStorage
 
 #HOMEPAGE
 def Home(request):
@@ -202,7 +202,15 @@ def driver_dashboard(request):
         'users': users,
         'reservations': reservations,
     })
+def user_profile(request):
 
+    users = User.objects.all()
+    reservations = Reservation.objects.all()
+    
+    return render(request, 'user_profile.html', {
+        'users':users,
+        'reservations': reservations,
+    })
 
 def admin_tracking(request):
     
@@ -260,6 +268,28 @@ def admin_announcements(request):
         'reservations': reservations,
     })
 
+# Admin side : Add / Import fare matrix
+
+def fare_matrix(request):
+    if request.method == 'POST' and request.FILES['file']:
+        file = request.FILES['file']
+
+        fare_matrix_data = [
+        {"location": "City A - City B", "kilometer": "10 km", "regular": "50 PHP", "discounted": "40 PHP"},
+        {"location": "City B - City C", "kilometer": "20 km", "regular": "100 PHP", "discounted": "80 PHP"},
+        {"location": "City A - City C", "kilometer": "30 km", "regular": "150 PHP", "discounted": "120 PHP"},
+        ]
+        
+        # Save the file to a specific directory
+        fs = FileSystemStorage(location='media/fare_matrix_files/')
+        filename = fs.save(file.name, file)
+        
+        # You can add logic here to process and validate the file contents
+        messages.success(request, f'Fare matrix updated successfully with file: {filename}')
+        return redirect('admin_fare_matrix')
+
+    return render(request, 'admin/fare_matrix.html')
+
 # Admin side: Add announcement
 def add_announcement(request):
     if request.method == 'POST':
@@ -301,6 +331,25 @@ def MiniBusView2(request):
 
 def MiniBusView3(request):
     return render(request, 'vehicles/minibus3.html')
+
+def taxi_logged1(request):
+    return render(request, 'vehicles/taxi_logged1.html')
+
+def taxi_logged2(request):
+    return render(request, 'vehicles/taxi_logged2.html')
+
+def taxi_logged3(request):
+    return render(request, 'vehicles/taxi_logged3.html')
+
+def minibus_logged1(request):
+    return render(request, 'vehicles/minibus_logged1.html')
+
+def minibus_logged2(request):
+    return render(request, 'vehicles/minibus_logged2.html')
+
+def minibus_logged3(request):
+    return render(request, 'vehicles/minibus_logged3.html')
+
 
 def SignUpView(request):
 
@@ -489,6 +538,16 @@ def ChangePassword(request, reset_id):
 
         return render(request, 'change-pass.html')
 
+#otp views
+
+def verify_otp(request):
+
+    return render(request, 'otp-verification.html')
+
+def resend_otp(request):
+
+    return render(request, 'resend-otp.html')
+
 #reservation form view
 
 def reservation_form_view(request):
@@ -497,6 +556,13 @@ def reservation_form_view(request):
         if form.is_valid():
             reservation = form.save(commit=False)
             reservation.user = request.user
+
+            vehicles = ["Toyota Corolla", "Modernized PUV V1", "Modernized PUV V2"]
+            unavailable_vehicles = ["Modernized PUV V1"]  # Example
+            context = {
+                "vehicles": vehicles,
+                "unavailable_vehicles": unavailable_vehicles,
+            }
 
             # Define distance map for routes
             distance_map = {

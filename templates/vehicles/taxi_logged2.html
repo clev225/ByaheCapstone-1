@@ -31,29 +31,52 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#about-us">About Us</a>
+                        <a class="nav-link" href="{% url 'logged_in' %}#about-us">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#book-your-ride">Services</a>
+                        <a class="nav-link" href="{% url 'logged_in' %}#book-your-ride">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#vehicles-section">Vehicles</a>
+                        <a class="nav-link" href="{% url 'logged_in' %}#vehicles-section">Vehicles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#announcement-section">Announcements</a>
+                        <a class="nav-link" href="{% url 'logged_in' %}#announcement-section">Announcements</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#contacts">Contact</a>
+                        <a class="nav-link" href="{% url 'logged_in' %}#contacts">Contact</a>
                     </li>
-                </ul>                
-                <a href="{% url 'signin' %}" class="btn get-started-btn ms-3 book-now-btn">Book Now</a>
+                
+                    <li class="nav-item">
+                        <!-- Existing Get Started Button -->
+                        <a href="{% url 'reservation_form_view' %}" class="btn get-started-btn ms-3 book-now-btn">Book Now</a>
+                    </li>
+                </ul>
+                <!-- User Icon with Dropdown -->
+                <ul class="navbar-nav ms-1 d-flex align-items-center">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link d-flex align-items-center dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle" style="font-size: 2.3rem; margin-right: 0.5rem;"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn animate__faster" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user" style="margin-right: 0.5rem;"></i>User Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="fas fa-sign-out-alt" style="margin-right: 0.5rem; color: red;"></i>Log Out
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
     {% endblock navbar %}
-
     <!-- Hero Section -->
     <section id="vehicle-details-hero" class="text-center text-white">
         <div class="overlay">
@@ -71,17 +94,17 @@
     <section id="vehicle-details" class="container my-5">
         <div class="row vehicle-info">
             <div class="col-lg-6">
-                <img src="{% static '/images/vehicles/mini-bus3.jpg' %}" alt="Toyota Vios 1" class="img-fluid">
+                <img src="{% static '/images/vehicles/taxi-2.jpg' %}" alt="Toyota Corolla Z" class="img-fluid">
             </div>
             <div class="col-lg-6">
-                <h2 class="vehicle-title">Modernized PUV (Mini Bus) V3</h2>
-                <p class="vehicle-description">The Modernized PUV V2 is a reliable and fuel-efficient vehicle, perfect for city rides. It comes with modern amenities and safety features to ensure a comfortable and safe journey.</p>
+                <h2 class="vehicle-title">Toyota Corolla Z</h2>
+                <p class="vehicle-description">Toyota Corolla Z is a reliable and fuel-efficient vehicle, perfect for city rides. It comes with modern amenities and safety features to ensure a comfortable and safe journey.</p>
                 <ul class="list-group list-group-flush mb-4">
                     <li class="list-group-item"><strong>Class:</strong> A</li>
                     <li class="list-group-item"><strong>Capacity:</strong> 4 passengers</li>
                     <li class="list-group-item"><strong>Features:</strong> Air conditioning, GPS, Bluetooth connectivity</li>
                 </ul>
-                <a href="{% url 'signin' %}" class="btn btn-primary">Book Now</a>
+                <a href="{% url 'reservation_form_view' %}" class="btn btn-primary">Book Now</a>
             </div>
         </div>
     </section>

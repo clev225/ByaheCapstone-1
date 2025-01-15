@@ -8,9 +8,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>BYAHE - Admin - User Profiles</title>
+        <title>BYAHE - Admin - User Feedback</title>
 
-        <link rel="icon" href="{% static 'assets\img\byahe-logo.png' %}" type="image/png">
+        <link rel="icon" href="{% static 'images/backgrounds/byahe-logo.png' %}" type="image/png">
 
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="{% static 'admin/css/styles.css' %}" rel="stylesheet" />
@@ -19,25 +19,21 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="{% url 'logged_in' %}">BYAHE Dashboard</a>
+            <a class="navbar-brand ps-3" href="{% url 'admin_dashboard' %}">BYAHE Dashboard</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
             <!-- Navbar User Icon-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <ul class="navbar-nav" style="margin-left: auto; padding-right: 20px;">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user fa-fw"></i>
+                    </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{% url 'logout'%}">Logout</a></li>
                     </ul>
                 </li>
             </ul>
+            
         </nav>
         <!--Sidebar Nav-->
         <div id="layoutSidenav">
@@ -49,6 +45,10 @@
                             <a class="nav-link" href="{% url 'admin_dashboard' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-calendar-check"></i></div>
                                 Reservations
+                            </a>
+                            <a class="nav-link" href="{% url 'admin_fare_matrix' %}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-dollar-sign"></i></div>
+                                Fare Matrix
                             </a>
                             <a class="nav-link" href="{% url 'admin_vehicles' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-car"></i></div>
@@ -89,205 +89,84 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Transaction Dashboard</h1>
+                        <h1 class="mt-4">User Feedback</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Manage Transactions and deploy drivers and vehicles.</li>
+                            <li class="breadcrumb-item active">View and manage user feedbacks.</li>
                         </ol>
                         <!--Database Table-->
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Transactions
+                                User feedback
                             </div>
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Payment Method</th>
-                                            <th>Driver/Plate No.</th>
-                                            <th>Vehicle</th>
-                                            <th>Destination</th>
-                                            <th>Fare</th>
-                                            <th>Date of Transaction</th>
-                                            <th>Pickup Date and Dropoff Date</th>
-                                            <th>Rented By</th>
-                                            <th>Travel Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Payment Method</th>
-                                            <th>Driver/Plate No.</th>
-                                            <th>Vehicle</th>
-                                            <th>Destination</th>
-                                            <th>Fare</th>
-                                            <th>Date of Transaction</th>
-                                            <th>Pickup Date and Dropoff Date</th>
-                                            <th>Rented By</th>
-                                            <th>Travel Status</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>On-Site</td>
-                                            <td>ABC123</td>
-                                            <td>Sedan</td>
-                                            <td>New York</td>
-                                            <td>$320,800</td>
-                                            <td>2024/11/20</td>
-                                            <td>2024/11/22 - 2024/11/25</td>
-                                            <td>John Doe</td>
-                                            <td>To pickup</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>GCash</td>
-                                            <td>XYZ789</td>
-                                            <td>Van</td>
-                                            <td>San Francisco</td>
-                                            <td>$170,750</td>
-                                            <td>2024/10/15</td>
-                                            <td>2024/10/18 - 2024/10/20</td>
-                                            <td>Jane Smith</td>
-                                            <td>Picked Up</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                            <td>Cash</td>
-                                            <td>LMN456</td>
-                                            <td>SUV</td>
-                                            <td>Los Angeles</td>
-                                            <td>$86,000</td>
-                                            <td>2024/09/05</td>
-                                            <td>2024/09/07 - 2024/09/09</td>
-                                            <td>Michael Brown</td>
-                                            <td>Dropped off</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cedric Kelly</td>
-                                            <td>On-Site</td>
-                                            <td>OPQ111</td>
-                                            <td>Hatchback</td>
-                                            <td>Chicago</td>
-                                            <td>$433,060</td>
-                                            <td>2024/08/22</td>
-                                            <td>2024/08/24 - 2024/08/26</td>
-                                            <td>Samantha Green</td>
-                                            <td>Picked Up</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>On-Site</td>
-                                            <td>ABC123</td>
-                                            <td>Sedan</td>
-                                            <td>New York</td>
-                                            <td>$320,800</td>
-                                            <td>2024/11/20</td>
-                                            <td>2024/11/22 - 2024/11/25</td>
-                                            <td>John Doe</td>
-                                            <td>To pickup</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>On-Site</td>
-                                            <td>ABC123</td>
-                                            <td>Sedan</td>
-                                            <td>New York</td>
-                                            <td>$320,800</td>
-                                            <td>2024/11/20</td>
-                                            <td>2024/11/22 - 2024/11/25</td>
-                                            <td>John Doe</td>
-                                            <td>To pickup</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>On-Site</td>
-                                            <td>ABC123</td>
-                                            <td>Sedan</td>
-                                            <td>New York</td>
-                                            <td>$320,800</td>
-                                            <td>2024/11/20</td>
-                                            <td>2024/11/22 - 2024/11/25</td>
-                                            <td>John Doe</td>
-                                            <td>To pickup</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Airi Satou</td>
-                                            <td>GCash</td>
-                                            <td>UVW333</td>
-                                            <td>Truck</td>
-                                            <td>Miami</td>
-                                            <td>$162,700</td>
-                                            <td>2024/07/12</td>
-                                            <td>2024/07/15 - 2024/07/17</td>
-                                            <td>Chris Wilson</td>
-                                            <td>To pickup</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>GCash</td>
-                                            <td>JKL222</td>
-                                            <td>Bus</td>
-                                            <td>Houston</td>
-                                            <td>$372,000</td>
-                                            <td>2024/06/30</td>
-                                            <td>2024/07/01 - 2024/07/03</td>
-                                            <td>Jessica Taylor</td>
-                                            <td>Dropped off</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>GCash</td>
-                                            <td>JKL222</td>
-                                            <td>Bus</td>
-                                            <td>Houston</td>
-                                            <td>$372,000</td>
-                                            <td>2024/06/30</td>
-                                            <td>2024/07/01 - 2024/07/03</td>
-                                            <td>Jessica Taylor</td>
-                                            <td>Dropped off</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>GCash</td>
-                                            <td>JKL222</td>
-                                            <td>Bus</td>
-                                            <td>Houston</td>
-                                            <td>$372,000</td>
-                                            <td>2024/06/30</td>
-                                            <td>2024/07/01 - 2024/07/03</td>
-                                            <td>Jessica Taylor</td>
-                                            <td>Dropped off</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>GCash</td>
-                                            <td>JKL222</td>
-                                            <td>Bus</td>
-                                            <td>Houston</td>
-                                            <td>$372,000</td>
-                                            <td>2024/06/30</td>
-                                            <td>2024/07/01 - 2024/07/03</td>
-                                            <td>Jessica Taylor</td>
-                                            <td>Dropped off</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Brielle Williamson</td>
-                                            <td>GCash</td>
-                                            <td>JKL222</td>
-                                            <td>Bus</td>
-                                            <td>Houston</td>
-                                            <td>$372,000</td>
-                                            <td>2024/06/30</td>
-                                            <td>2024/07/01 - 2024/07/03</td>
-                                            <td>Jessica Taylor</td>
-                                            <td>Dropped off</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>User Feedback Dashboard</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table id="feedbackTable" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Feedback ID</th>
+                                                <th>User Name</th>
+                                                <th>Email</th>
+                                                <th>Subject</th>
+                                                <th>Message</th>
+                                                <th>Date Submitted</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Feedback ID</th>
+                                                <th>User Name</th>
+                                                <th>Email</th>
+                                                <th>Subject</th>
+                                                <th>Message</th>
+                                                <th>Date Submitted</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Jane Doe</td>
+                                                <td>jane.doe@example.com</td>
+                                                <td>Feature Request</td>
+                                                <td>Can you add more payment options?</td>
+                                                <td>2024/12/12</td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-sm">View</button>
+                                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>John Smith</td>
+                                                <td>john.smith@example.com</td>
+                                                <td>Bug Report</td>
+                                                <td>The reservation form crashes occasionally.</td>
+                                                <td>2024/12/10</td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-sm">View</button>
+                                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Alice Brown</td>
+                                                <td>alice.brown@example.com</td>
+                                                <td>Suggestion</td>
+                                                <td>Would love to see a rewards program!</td>
+                                                <td>2024/12/08</td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-sm">View</button>
+                                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

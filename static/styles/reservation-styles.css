@@ -1,5 +1,24 @@
 /* LOGGED IN CHANGES */
 
+/* UNAVAILABLE VEHICLES STYLING */
+
+    .unavailable {
+        background-color: #f8d7da; /* Pale red */
+        color: #721c24; /* Darker red for text */
+        cursor: not-allowed;
+    }
+    .unavailable:hover::after {
+        content: "This vehicle is currently unavailable";
+        color: #721c24;
+        position: absolute;
+        background-color: #f8d7da;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 12px;
+        z-index: 10;
+    }
+
+
 /* Ensure the navbar is responsive */
 .navbar-nav {
     display: flex;

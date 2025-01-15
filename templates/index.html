@@ -7,6 +7,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static '/styles/styles.css' %}">
+
 {% include "loader.html" %}
 {% endblock style%}
 
@@ -187,6 +188,7 @@
 
 {% block announcements %}
 <!-- announcements/announcement_list.html -->
+<section id="announcement-section">
 <div class="container my-4">
     <h2 class="fw-bold">Announcements</h2>
     <div class="row g-4">
@@ -206,6 +208,7 @@
         {% endfor %}
     </div>
 </div>
+</section>
 {% endblock announcements %}
 
 {% block footer %}

@@ -2,8 +2,10 @@ from django.urls import path
 from . import views
 from .views import CustomLoginView
 
+
 urlpatterns = [
     path('', views.Home, name='home'),  
+    
 
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin_users/', views.admin_users, name='admin_users'),
@@ -14,7 +16,7 @@ urlpatterns = [
 
     path('admin_drivers/', views.admin_drivers, name='admin_drivers'),#ADMIN DRIVERS PROFILE
 
-
+    path('user_profile/', views.user_profile, name='user_profile'),
     #driver dashboard
     path('driver_dashboard/', views.driver_dashboard, name='driver_dashboard'),
     path('signin/', CustomLoginView.as_view(), name='signin'),
@@ -22,8 +24,9 @@ urlpatterns = [
     path('admin_vehicles/', views.admin_vehicles, name='admin_vehicles'),
     path('admin_tracking/', views.admin_tracking, name='admin_tracking'),
     path('admin_payment/', views.admin_payment, name='admin_payment'),
-    path('admin_reviews/', views.admin_payment, name='admin_reviews'),
+    path('admin_reviews/', views.admin_reviews, name='admin_reviews'),
     path('admin_announcements/', views.admin_announcements, name='admin_announcements'),
+    path('fare-matrix/', views.fare_matrix, name='admin_fare_matrix'),
 
     #admin add announcements
     path('admin/add-announcement/', views.add_announcement, name='add_announcement'),
@@ -41,11 +44,21 @@ urlpatterns = [
     path('minibus1/', views.MiniBusView1, name='minibus1'),
     path('minibus2/', views.MiniBusView2, name='minibus2'),
     path('minibus3/', views.MiniBusView3, name='minibus3'),
+    path('taxi_logged1/', views.taxi_logged1, name='taxi_logged1'),
+    path('taxi_logged2/', views.taxi_logged2, name='taxi_logged2'),
+    path('taxi_logged3/', views.taxi_logged3, name='taxi_logged3'),
+    path('minibus_logged1/', views.minibus_logged1, name='minibus_logged1'),
+    path('minibus_logged2/', views.minibus_logged2, name='minibus_logged2'),
+    path('minibus_logged3/', views.minibus_logged3, name='minibus_logged3'),
         
 
     path('forgot_password/', views.ForgotPassword, name='forgot_password'),
     path('password-reset-sent/<str:reset_id>/', views.ForgotPass2, name='forgot_pass2'),
     path('change_password/<str:reset_id>/', views.ChangePassword, name='change_password'),  # Corrected
+
+    #OTP verificiation
+    path('verify-otp/', views.verify_otp, name='verify_otp'),
+    path('resend-otp/', views.resend_otp, name='resend_otp'),
 
     # Reservation form page
     path('reservation/', views.reservation_form_view, name='reservation_form_view'),

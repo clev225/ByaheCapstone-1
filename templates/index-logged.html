@@ -70,7 +70,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn animate__faster" aria-labelledby="userDropdown">
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{% url 'user_profile' %}">
                                 <i class="fas fa-user" style="margin-right: 0.5rem;"></i>User Profile
                             </a>
                         </li>
@@ -129,9 +129,9 @@
         <h1>Secure Online Payment System for Easy Transactions</h1>
         <p>Experience hassle-free online payments with BYAHE's secure payment system. Choose from a variety of payment options for your convenience.</p>
         <div class="button-container">
-            <a href="#" class="sign-up-btn">Sign Up</a>
+            <a href="{% url 'user_profile' %}" class="log-in-btn">View Profile</a>
             <span class="or-text">or</span>
-            <a href="#" class="log-in-btn">Log In</a>
+            <a href="{% url 'logout' %}" class="log-in-btn">Log Out</a>
         </div>
     </div>
     <div class="about-image">
@@ -189,15 +189,15 @@
 
         <h3>Class A Vehicles</h3>
         <div class="vehicle-cards" id="vehicle-cards">
-            <div class="vehicle-card" data-href="/vehicles/taxi1.html">
+            <div class="vehicle-card" data-href="{% url 'taxi_logged1' %}">
                 <img src="{% static 'images/vehicles/taxi-1.jpg' %}" alt="Toyota Vios 1">
                 <p style= "text-align: center;">Toyota Vios 1</p>
             </div>
-            <div class="vehicle-card" data-href="/vehicles/taxi2.html">
+            <div class="vehicle-card" data-href="{% url 'taxi_logged2' %}">
                 <img src="{% static 'images/vehicles/taxi-2.jpg' %}" alt="Toyota Corolla Z">
                 <p style= "text-align: center;">Toyota Corolla Z</p>
             </div>
-            <div class="vehicle-card" data-href="/vehicles/taxi3.html">
+            <div class="vehicle-card" data-href="{% url 'taxi_logged3' %}">
                 <img src="{% static 'images/vehicles/taxi-3.jpg' %}" alt="Toyota Vios 2">
                 <p style= "text-align: center;">Toyota Vios 2</p>
             </div>
@@ -207,15 +207,15 @@
     <div class="vehicles-content">
         <h3>Class B Vehicles</h3>
         <div class="vehicle-cards" id="vehicle-cards-b">
-            <div class="vehicle-card" data-href="/vehicles/minibus1.html">
+            <div class="vehicle-card" data-href="{% url 'minibus_logged1' %}">
                 <img src="{% static 'images/vehicles/mini-bus1.jpg' %}" alt="Modernized PUV (Mini Bus)">
                 <p style= "text-align: center;">Modernized PUV (Mini Bus)</p>
             </div>
-            <div class="vehicle-card" data-href="/vehicles/minibus2.html">
+            <div class="vehicle-card" data-href="{% url 'minibus_logged2' %}">
                 <img src="{% static 'images/vehicles/mini-bus2.jpg' %}" alt="Modernized PUV (Mini Bus) V2">
                 <p style= "text-align: center;">Modernized PUV (Mini Bus) V2</p>
             </div>
-            <div class="vehicle-card" data-href="/vehicles/minibus3.html">
+            <div class="vehicle-card" data-href="{% url 'minibus_logged3' %}">
                 <img src="{% static 'images/vehicles/mini-bus3.jpg' %}" alt="Modernized PUV (Mini Bus) V3">
                 <p style= "text-align: center;">Modernized PUV (Mini Bus) V3</p>
             </div>
@@ -228,6 +228,7 @@
 
 {% block announcements %}
 <!-- announcements/announcement_list.html -->
+ <section id="announcement-section">
 <div class="container my-4">
     <h2 class="fw-bold">Announcements</h2>
     <div class="row g-4">
@@ -247,6 +248,7 @@
         {% endfor %}
     </div>
 </div>
+</section>
 {% endblock announcements %}
 
 {% block footer %}
